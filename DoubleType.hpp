@@ -1,13 +1,15 @@
 #ifndef DOUBLETYPE_HPP
 #define DOUBLETYPE_HPP
 
+
+template <class T>
 #include "ClientType.hpp"
 #include <iostream>
 using namespace std;
-// Header file for Sorted List ADT.
 struct NodeType;
 
 struct NodeType {
+    NodeType* previous;
     ClientType* info;
     NodeType* next;
 };
@@ -22,18 +24,24 @@ public:
   int  GetLength() const;
   void MakeEmpty();
   ClientType* GetItem(int key);
-  void PutItem(ClientType* item);
-  void PutItemUnsorted(ClientType* item);
+  void PutItemTop(ClientType* item);
+  void PutItemBottom(ClientType* item);
   void DeleteItem(int key);
+  void DeleteItemTop();
+  void DeleteItemBottom();
   void ResetList();
   void UpdateItem(int key, double balance, string name);
   ClientType* GetNextItem();
+  void sortList();
   NodeType* getHead();
+  NodeType* getTail();
 
 private:
-   NodeType* listData;
+   NodeType* listData; //head
    int length;
+   NodeType* listTail; //tail of the list
    NodeType* currentPos;
+
 
 
 };
@@ -76,17 +84,7 @@ void DoubleType::MakeEmpty() {
   length = 0;
 }
 
-// Set location to listData
-// Set found to false
-// Set moreToSearch to (location != NULL)
-// while moreToSearch AND NOT found
-//      switch (item.ComparedTo(location->info))
-//          case GREATER  :        Set location to location->next
-//                                 Set moreToSearch to (location != NULL)
-//          case EQUAL    :        Set found to true
-//                                 Set item to location->info
-//          case LESS     :        Set moreToSearch to false
-// return item
+
 /**
  * @brief this method returns the account found by its ID
  * it searches through the list until it finds the node.
@@ -118,82 +116,100 @@ ClientType* DoubleType::GetItem(int key) {
   return item;
 }
 
-// Set location to listData
-// Set predLoc to NULL
-// Set moreToSearch to (location != NULL)
-// while moreToSearch
-//     switch (item.ComparedTo(location->info))
-//         case GREATER   :       Set predLoc to location
-//                                Set location to location->next
-//                                Set moreToSearch to (location != NULL)
-//         case LESS      : Set moreToSearch to false
-// Set newNode to the address of a newly allocated node
-// Set newNode->info to item
-// Set newNode->next to location
-// Set predLoc->next to newNode
-// Increment length
+
 /**
- * @brief this method adds an item to the list sorted by its ID
- * the method will first compare to see where the node must be inserted, 
- * then will proceed to insert the node at that point and increment the total length of the list
+ * @brief this method adds an item to the list by placing it at the head of the list 
+ * and then making the node the new head of the list
  * 
  * @param item the account that is being added.
  */
-void DoubleType::PutItem(ClientType* item)
+void DoubleType::PutItemTop(ClientType* item)
 {
   NodeType* newNode;  // pointer to node being inserted
   NodeType* predLoc;  // trailing pointer
   NodeType* location; // traveling pointer
-  bool moreToSearch;
+  // bool moreToSearch;
 
   location = listData;
   predLoc = NULL;
-  moreToSearch = (location != NULL);
+  // moreToSearch = (location != NULL);
 
-  // Find insertion point.
-  while (moreToSearch)
-  {
-    switch( item->ComparedTo(location->info ) )
-    {
-      case GREATER:
-        predLoc = location;
-        location = location->next;
-        moreToSearch = (location != NULL);
-        break;
-      case LESS:
-        moreToSearch = false;
-        break;
-     }
-  }
   // Prepare node for insertion.
   newNode = new NodeType;
   newNode->info = item;
 
   // Insert node into list.
-  if (predLoc == NULL)         // Insert as first.
+  if (listData == NULL)         // Insert as first.
   {
-    newNode->next = listData;
+    newNode->next = NULL;
+    newNode->previous = NULL;
     listData = newNode;
+    listTail = newNode;
   }
   else
   {
-     newNode->next = location;
-     predLoc->next = newNode;
+    newNode->next = listData;
+    newNode->previous = NULL;
+    listData = newNode;
+
   }
   length++;
 }
 
+/**
+ * @brief this method inserts into the list by traveling through the list and then 
+ * appending the node to the tail of the list 
+ * 
+ * @param item the object being entered into the list
+ */
+void DoubleType::PutItemBottom(ClientType* item) {
+  NodeType* newNode;  // pointer to node being inserted  // trailing pointer
+  NodeType* location; // traveling pointer
+  // bool moreToSearch;
 
-// Initialize location to position of first item
-// Set found to false
-// while NOT found
-//     switch (item.ComparedTo(Info(location)))
-//         case GREATER   :   Set location to Next(location)
-//         case LESS      :   // Cannot happen because list is sorted.
-//         case EQUAL     :   Set found to true
-// for index going from location + 1 TO length – 1
-//      Set Info(index – 1) to Info(index)
-// Decrement length
+  location = listData;
+  // moreToSearch = (location != NULL);
+  newNode = new NodeType;
+  newNode->info = item;
+
+  if (listData == NULL)         // Insert as first.
+  {
+    newNode->next = NULL;
+    newNode->previous = NULL;
+    listData = newNode;
+    listTail = newNode;
+  } else {
+    newNode->previous = listTail;
+    newNode->next = NULL;
+    listTail = newNode;
+    
+  }
+  length++;
+}
+
+void DoubleType::sortList() {
+  NodeType* tempNode;
+  NodeType* indexNode;
+  ClientType* temp;
+
+  if (listData == NULL) {
+    return;
+  } else {
+    for (tempNode = listData; tempNode->next != NULL; tempNode = tempNode->next) {
+      for (indexNode = tempNode->next; indexNode != NULL; indexNode = indexNode->next) {
+        if (tempNode->info->getBalance() > indexNode->info->getBalance() ) {
+          temp = tempNode->info;
+          tempNode->info = indexNode->info;
+          indexNode->info = temp;
+        }
+      }
+    }
+
+  }
+}
+
+
+
 /**
  * @brief this method finds the specified account by its ID
  * and then deletes it by removing the node and setting the pointer of the previous node 
@@ -222,6 +238,20 @@ void DoubleType::DeleteItem(int key)
   }
   delete tempLocation;
   length--;
+}
+
+void DoubleType::DeleteItemTop() {
+  NodeType* tempNode;
+  tempNode = listData;
+  listData = listData->next;
+  delete tempNode;
+}
+
+void DoubleType::DeleteItemBottom() {
+  NodeType* tempNode;
+  tempNode = listTail;
+  listTail = listTail->previous;
+  delete tempNode;
 }
 
 void DoubleType::ResetList()
@@ -292,6 +322,12 @@ void DoubleType::UpdateItem(int key, double balance, string name) {
 NodeType* DoubleType::getHead() {
   return listData;
 }
+
+NodeType* DoubleType::getTail() {
+  return listTail;
+}
+
+
 
 
 #endif

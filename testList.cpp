@@ -1,22 +1,22 @@
 #include <iostream>
-#include "SortedType.hpp"
+#include "DoubleType.hpp"
 #include "ClientType.hpp"
 
 using namespace std;
 void invalidInput(); // default text line for invalid input
 void topLevelMenu(); // text line that displays the top level menu prompts
-void Populate(SortedType*);
-void updateAccount(SortedType*);
-void view(SortedType*);
-void viewIndividual(SortedType*);
-void viewList(SortedType*);
-void deleteItem(SortedType*);
+void Populate(DoubleType*);
+void updateAccount(DoubleType*);
+void view(DoubleType*);
+void viewIndividual(DoubleType*);
+void viewList(DoubleType*);
+void deleteItem(DoubleType*);
 
 
 int main(int argc, char const *argv[]) {
    
    cout << "===========List===========" << endl;
-   SortedType* List = new SortedType;
+   DoubleType* List = new DoubleType;
    bool exit = false;
 
    do {   
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[]) {
  * @param list take in the generated list as a parameter.
  */
 
-void Populate(SortedType* list) {
+void Populate(DoubleType* list) {
    cout << "-----List Generation-------" << endl;
    int choice = 1;
    string name;
@@ -84,7 +84,7 @@ void Populate(SortedType* list) {
       cin  >> balance;
 
       ClientType* client = new ClientType(id, name, balance);
-      list->PutItem(client);
+      list->PutItemTop(client);
 
       cout << "Enter 1 to add another record: ";
       cin  >> choice; 
@@ -98,13 +98,14 @@ void Populate(SortedType* list) {
  * 
  * @param list 
  */
-void view(SortedType* list) {
+void view(DoubleType* list) {
    int option;
    bool isValid = false;
    do {
       cout << "----Main Menu----\n"
        << "1.\tView Account\n"
-       << "2.\tView Account List\n";
+       << "2.\tView Account List\n"
+       << "3.\tView Accounts Sorted by Balance\n";
       if (cin >> option) {
          if (option == 1) {
             isValid = true;
@@ -112,6 +113,11 @@ void view(SortedType* list) {
          }
          if (option == 2) {
             isValid = true;
+            viewList(list);
+         }
+         if (option == 3) {
+            isValid = true;
+            list->sortList();
             viewList(list);
          }
       } else {
@@ -127,7 +133,7 @@ void view(SortedType* list) {
  * 
  * @param list the sorted list that was generated.
  */
-void viewList(SortedType* list) {
+void viewList(DoubleType* list) {
    list->ResetList();
    for (int i = 0; i < list->GetLength(); i++ )
    {
@@ -144,7 +150,7 @@ void viewList(SortedType* list) {
  * 
  * @param list the linked list
  */
-void viewIndividual(SortedType* list) {
+void viewIndividual(DoubleType* list) {
    int choice = 0;
    int id;
    do {
@@ -170,7 +176,7 @@ void viewIndividual(SortedType* list) {
  * 
  * @param list the sorted list
  */
-void deleteItem(SortedType* list) {
+void deleteItem(DoubleType* list) {
    cout << "-------Delete Record from List -------" << endl;
    int id;
    cout << "Enter Account ID for removal: " << endl;
@@ -188,7 +194,7 @@ void deleteItem(SortedType* list) {
  * 
  * @param list the sorted list
  */
-void updateAccount(SortedType* list) {
+void updateAccount(DoubleType* list) {
    cout << "--------Update Records-----------" << endl;
    int id;
    int choice = 0;
