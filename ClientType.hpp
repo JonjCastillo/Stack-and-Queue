@@ -34,6 +34,8 @@ class ClientType {
       //mutators
       void setName(string name);
       void setBalance(double balance);
+      void setID(int id);
+      
 
 
 
@@ -71,12 +73,16 @@ double ClientType::getBalance() const{
    return balance;
 }
 
-void ClientType::setName(string name) {
-   this->name = name;
+void ClientType::setName(string newName) {
+   this->name = newName;
 }
 
 void ClientType::setBalance(double balance) {
    this->balance = balance;
+}
+
+void ClientType::setID(int id) {
+   this->id = id;
 }
 
 

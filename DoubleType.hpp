@@ -55,7 +55,7 @@ template<class T>
 bool DoubleType<T>::IsFull() const {
    NodeType<T>* location;
    try {
-      location = new NodeType;
+      location = new NodeType<T>;
       delete location;
       return false;
    }
@@ -66,7 +66,7 @@ bool DoubleType<T>::IsFull() const {
 
 template<class T>
 bool DoubleType<T>::isEmpty() const {
-  return length == 0 && listData == NULL;
+  return listData == NULL;
 }
 //return the length of the list
 template<class T>
@@ -141,7 +141,7 @@ void DoubleType<T>::PutItemTop(T* item)
   // moreToSearch = (location != NULL);
 
   // Prepare node for insertion.
-  newNode = new NodeType;
+  newNode = new NodeType<T>;
   newNode->info = item;
 
   // Insert node into list.
@@ -176,7 +176,7 @@ void DoubleType<T>::PutItemBottom(T* item) {
 
   location = listData;
   // moreToSearch = (location != NULL);
-  newNode = new NodeType;
+  newNode = new NodeType<T>;
   newNode->info = item;
 
   if (listData == NULL)         // Insert as first.

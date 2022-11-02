@@ -14,7 +14,7 @@
 
 #include "DoubleType.hpp"
 template<class T>
-class Queue
+class Queue : public DoubleType<T>
 {
 private:
    /* data */
@@ -29,7 +29,7 @@ public:
 };
 
 template <class T>
-Queue<T>::Queue(/* args */) : DoubleType<T> () {
+Queue<T>::Queue() : DoubleType<T> () {
 }
 
 template <class T>

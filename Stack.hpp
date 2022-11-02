@@ -14,7 +14,7 @@
  */
 #include "DoubleType.hpp"
 template<class T>
-class Stack: public DoubleType {
+class Stack: public DoubleType<T> {
 private:
    /* data */
 public:
