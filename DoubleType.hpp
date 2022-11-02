@@ -20,6 +20,7 @@ class DoubleType {
     ~DoubleType();    // Class destructor
 
     bool IsFull() const;
+    bool isEmpty() const;
     int  GetLength() const;
     void MakeEmpty();
     T* GetItem(T* item);
@@ -63,6 +64,10 @@ bool DoubleType<T>::IsFull() const {
    }
 }
 
+template<class T>
+bool DoubleType<T>::isEmpty() const {
+  return length == 0 && listData == NULL;
+}
 //return the length of the list
 template<class T>
 int DoubleType<T>::GetLength() const {

@@ -17,9 +17,9 @@ class ClientType {
    public:
       //overloading comparison operators
       inline bool operator<  (const ClientType& rhs) {return this->getID() < rhs.getID();};
-      inline bool operator>  (const ClientType& rhs) {return rhs.getID() < this->getID()}; 
-      inline bool operator<= (const ClientType& rhs) {return !(this->getID() > rhs.getID())};
-      inline bool operator>= (const ClientType& rhs) {return !(this->getID() < rhs.getID())};
+      inline bool operator>  (const ClientType& rhs) {return rhs.getID() < this->getID();}; 
+      inline bool operator<= (const ClientType& rhs) {return !(this->getID() > rhs.getID());};
+      inline bool operator>= (const ClientType& rhs) {return !(this->getID() < rhs.getID());};
       inline bool operator== (const ClientType& rhs);
       inline bool operator!= (const ClientType& rhs);
       
