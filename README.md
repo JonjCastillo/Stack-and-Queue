@@ -1,1 +1,1 @@
-# Doubly-Linked-List
+# Stacks and Queues

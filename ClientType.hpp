@@ -1,20 +1,11 @@
 #ifndef CLIENTTYPE_HPP
 #define CLIENTTYPE_HPP
 
-// File ItemType.h must be provided by the user of this class.
-// ItemType.h must contain the following definitions:
-// MAX_ITEMS:     the maximum number of items on the list
-// ItemType:      the definition of the objects on the list
-// RelationType:  {LESS, GREATER, EQUAL}
-// Member function ComparedTo(ItemType item) which returns
-//      LESS, if self 'comes before' item
-//      GREATER, if self 'comes after' item
-//      EQUAL, if self and item are the same
+
 #include <string>
 #include <iostream>
 using namespace std;
 
-enum RelationType { LESS, GREATER, EQUAL };
 
 class ClientType {
    private:
@@ -22,25 +13,39 @@ class ClientType {
       int id;
       string name;
       double balance;
-
-      //mutators
-
       
    public:
+      //overloading comparison operators
+      inline bool operator<  (const ClientType& rhs) {return this->getID() < rhs.getID();};
+      inline bool operator>  (const ClientType& rhs) {return rhs.getID() < this->getID()}; 
+      inline bool operator<= (const ClientType& rhs) {return !(this->getID() > rhs.getID())};
+      inline bool operator>= (const ClientType& rhs) {return !(this->getID() < rhs.getID())};
+      inline bool operator== (const ClientType& rhs);
+      inline bool operator!= (const ClientType& rhs);
+      
       ClientType();
       ClientType(int id, string name, double balance);
 
       //accessors
       int getID() const;
-      string getName() const;
       double getBalance() const;
+      string getName() const;
+
+      //mutators
       void setName(string name);
       void setBalance(double balance);
-      RelationType ComparedTo(ClientType* item);
 
 
 
 };
+
+inline bool ClientType::operator== (const ClientType& rhs) {
+   return this->id == rhs.getID();
+}
+
+inline bool ClientType::operator!=(const ClientType& rhs) {
+   return !(this->id == rhs.getID());
+}
 
 ClientType::ClientType(int id, string name, double balance) {
    this->id = id;
@@ -74,20 +79,6 @@ void ClientType::setBalance(double balance) {
    this->balance = balance;
 }
 
-
-RelationType ClientType::ComparedTo(ClientType* item) {
-   if (
-      this->getID() == item->getID() &&
-      this->getBalance() == item->getBalance() &&
-      this->getName() == item->getName()
-   ) {
-      return EQUAL;
-   } else if ( this->getID() > item->getID() ) {
-      return GREATER;
-   } 
-
-   return LESS;
-}
 
 #endif
 

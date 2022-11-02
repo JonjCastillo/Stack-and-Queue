@@ -2,60 +2,57 @@
 #define DOUBLETYPE_HPP
 
 
-template <class T>
-#include "ClientType.hpp"
 #include <iostream>
 using namespace std;
-struct NodeType;
+template<class T>
+// struct NodeType;
 
 struct NodeType {
-    NodeType* previous;
-    ClientType* info;
-    NodeType* next;
+    NodeType<T>* previous;
+    T* info;
+    NodeType<T>* next;
 };
 
+template<class T>
 class DoubleType {
+  public:
+    DoubleType();     // Class constructor
+    ~DoubleType();    // Class destructor
 
-public:
-  DoubleType();     // Class constructor
-  ~DoubleType();    // Class destructor
+    bool IsFull() const;
+    int  GetLength() const;
+    void MakeEmpty();
+    T* GetItem(T* item);
+    void PutItemTop(T* item);
+    void PutItemBottom(T* item);
+    void DeleteItem(T* item);
+    void DeleteItemTop();
+    void DeleteItemBottom();
+    void ResetList();
+    // void UpdateItem(T* item);
+    T* GetNextItem();
+    void sortList();
+    NodeType<T>* getHead();
+    NodeType<T>* getTail();
 
-  bool IsFull() const;
-  int  GetLength() const;
-  void MakeEmpty();
-  ClientType* GetItem(int key);
-  void PutItemTop(ClientType* item);
-  void PutItemBottom(ClientType* item);
-  void DeleteItem(int key);
-  void DeleteItemTop();
-  void DeleteItemBottom();
-  void ResetList();
-  void UpdateItem(int key, double balance, string name);
-  ClientType* GetNextItem();
-  void sortList();
-  NodeType* getHead();
-  NodeType* getTail();
-
-private:
-   NodeType* listData; //head
-   int length;
-   NodeType* listTail; //tail of the list
-   NodeType* currentPos;
-
-
-
+  private:
+    NodeType<T>* listData; //head
+    int length;
+    NodeType<T>* listTail; //tail of the list
+    NodeType<T>* currentPos;
 };
 
-
-DoubleType::DoubleType() {  // Class constructor
+template<class T>
+DoubleType<T>::DoubleType() {  // Class constructor
   length = 0;
   listData = NULL;
 }
 
 //checks to see if there is enough memory to add another 
 //node to the list.
-bool DoubleType::IsFull() const {
-   NodeType* location;
+template<class T>
+bool DoubleType<T>::IsFull() const {
+   NodeType<T>* location;
    try {
       location = new NodeType;
       delete location;
@@ -67,13 +64,15 @@ bool DoubleType::IsFull() const {
 }
 
 //return the length of the list
-int DoubleType::GetLength() const {
+template<class T>
+int DoubleType<T>::GetLength() const {
    return length;
 }
 
 //method empties out the list
-void DoubleType::MakeEmpty() {
-  NodeType* tempPtr;
+template<class T>
+void DoubleType<T>::MakeEmpty() {
+  NodeType<T>* tempPtr;
 
   while (listData != NULL) {
     tempPtr = listData;
@@ -90,30 +89,31 @@ void DoubleType::MakeEmpty() {
  * it searches through the list until it finds the node.
  * 
  * @param key the id of the list
- * @return ClientType* the account that correlated to the ID
+ * @return T* the account that correlated to the ID
  */
-ClientType* DoubleType::GetItem(int key) {
+template<class T>
+T* DoubleType<T>::GetItem(T* item) {
   bool moreToSearch;
-  NodeType* location;
-  NodeType* tempLocation;
-  ClientType* item;
+  NodeType<T>* location;
+  NodeType<T>* tempLocation;
+  T* foundItem;
 
   location = listData;
   moreToSearch = (location != NULL);
-  if ( key == location->info->getID() ) {
-    item = location->info;
-    return item;
+  if ( item == location->info ) {
+    foundItem = location->info;
+    return foundItem;
   }
   else {
-    while (key != location->next->info->getID()) {
+    while (item != location->next->info) {
       location = location->next;
-      item = NULL;
+      foundItem = NULL;
     }
 
-    item = location->next->info;
+    foundItem = location->next->info;
   }
 
-  return item;
+  return foundItem;
 }
 
 
@@ -123,11 +123,12 @@ ClientType* DoubleType::GetItem(int key) {
  * 
  * @param item the account that is being added.
  */
-void DoubleType::PutItemTop(ClientType* item)
+template<class T>
+void DoubleType<T>::PutItemTop(T* item)
 {
-  NodeType* newNode;  // pointer to node being inserted
-  NodeType* predLoc;  // trailing pointer
-  NodeType* location; // traveling pointer
+  NodeType<T>* newNode;  // pointer to node being inserted
+  NodeType<T>* predLoc;  // trailing pointer
+  NodeType<T>* location; // traveling pointer
   // bool moreToSearch;
 
   location = listData;
@@ -162,9 +163,10 @@ void DoubleType::PutItemTop(ClientType* item)
  * 
  * @param item the object being entered into the list
  */
-void DoubleType::PutItemBottom(ClientType* item) {
-  NodeType* newNode;  // pointer to node being inserted  // trailing pointer
-  NodeType* location; // traveling pointer
+template<class T>
+void DoubleType<T>::PutItemBottom(T* item) {
+  NodeType<T>* newNode;  // pointer to node being inserted  // trailing pointer
+  NodeType<T>* location; // traveling pointer
   // bool moreToSearch;
 
   location = listData;
@@ -187,17 +189,18 @@ void DoubleType::PutItemBottom(ClientType* item) {
   length++;
 }
 
-void DoubleType::sortList() {
-  NodeType* tempNode;
-  NodeType* indexNode;
-  ClientType* temp;
+template<class T>
+void DoubleType<T>::sortList() {
+  NodeType<T>* tempNode;
+  NodeType<T>* indexNode;
+  T* temp;
 
   if (listData == NULL) {
     return;
   } else {
     for (tempNode = listData; tempNode->next != NULL; tempNode = tempNode->next) {
       for (indexNode = tempNode->next; indexNode != NULL; indexNode = indexNode->next) {
-        if (tempNode->info->getBalance() > indexNode->info->getBalance() ) {
+        if (tempNode->info > indexNode->info ) {
           temp = tempNode->info;
           tempNode->info = indexNode->info;
           indexNode->info = temp;
@@ -217,18 +220,19 @@ void DoubleType::sortList() {
  * 
  * @param key this is the ID of the account
  */
-void DoubleType::DeleteItem(int key)
+template<class T>
+void DoubleType<T>::DeleteItem(T* item)
 {
-  NodeType* location = listData;
-  NodeType* tempLocation;
+  NodeType<T>* location = listData;
+  NodeType<T>* tempLocation;
 
   // Locate node to be deleted.
-  if ( key == listData->info->getID() ) {
+  if ( item == listData->info ) {
     tempLocation = location;
     listData = listData->next;    // Delete first node.
   }
   else {
-    while (key != location->next->info->getID()) {
+    while (item != location->next->info) {
       location = location->next;
     }
 
@@ -239,22 +243,24 @@ void DoubleType::DeleteItem(int key)
   delete tempLocation;
   length--;
 }
-
-void DoubleType::DeleteItemTop() {
-  NodeType* tempNode;
+template<class T>
+void DoubleType<T>::DeleteItemTop() {
+  NodeType<T>* tempNode;
   tempNode = listData;
   listData = listData->next;
   delete tempNode;
 }
 
-void DoubleType::DeleteItemBottom() {
-  NodeType* tempNode;
+template<class T>
+void DoubleType<T>::DeleteItemBottom() {
+  NodeType<T>* tempNode;
   tempNode = listTail;
   listTail = listTail->previous;
   delete tempNode;
 }
 
-void DoubleType::ResetList()
+template<class T>
+void DoubleType<T>::ResetList()
 {
   currentPos = NULL;
 }
@@ -262,11 +268,12 @@ void DoubleType::ResetList()
 /**
  * @brief returns the next item in the list
  * 
- * @return ClientType* the client that followed in the list
+ * @return T* the client that followed in the list
  */
-ClientType* DoubleType::GetNextItem()
+template<class T>
+T* DoubleType<T>::GetNextItem()
 {
-  ClientType* item;
+  T* item;
   if (currentPos == NULL) {
     currentPos = listData;
   }
@@ -275,9 +282,10 @@ ClientType* DoubleType::GetNextItem()
   return item;
 }
 
-DoubleType::~DoubleType()
+template<class T>
+DoubleType<T>::~DoubleType()
 {
-  NodeType* tempPtr;
+  NodeType<T>* tempPtr;
 
   while (listData != NULL)
   {
@@ -287,43 +295,44 @@ DoubleType::~DoubleType()
   }
 }
 
-/**
- * @brief this method will search similar to GetItem() and then update the found
- * node with the given parameters
- * 
- * @param key the account ID for the node
- * @param balance the updated balance for the account
- * @param name the updated name for the account
- */
-void DoubleType::UpdateItem(int key, double balance, string name) {
-  bool moreToSearch;
-  NodeType* location;
-  NodeType* tempLocation;
+// /**
+//  * @brief this method will search similar to GetItem() and then update the found
+//  * node with the given parameters
+//  * 
+//  * @param key the account ID for the node
+//  * @param balance the updated balance for the account
+//  * @param name the updated name for the account
+//  */
+// template<class T>
+// void DoubleType<T>::UpdateItem(T* item) {
+//   bool moreToSearch;
+//   NodeType<T>* location;
+//   NodeType<T>* tempLocation;
 
-  location = listData;
-  moreToSearch = (location->next != NULL);
+//   location = listData;
+//   moreToSearch = (location->next != NULL);
 
-  if ( key == location->info->getID() ) {
-    location->info->setBalance(balance);
-    location->info->setName(name); 
-  }
-  else {
-    while (key != location->next->info->getID()) {
-      location = location->next;
-    }
+//   if ( item == location->info) {
+//     location->info = item;
+//   }
+//   else {
+//     while (item != location->next->info) {
+//       location = location->next;
+//     }
 
-    location->next->info->setBalance(balance);
-    location->next->info->setName(name);
-  }
+//     location->next->info = item;
+//   }
   
-}
+// }
 
 // returns the head of the list
-NodeType* DoubleType::getHead() {
+template<class T>
+NodeType<T>* DoubleType<T>::getHead() {
   return listData;
 }
 
-NodeType* DoubleType::getTail() {
+template<class T>
+NodeType<T>* DoubleType<T>::getTail() {
   return listTail;
 }
 

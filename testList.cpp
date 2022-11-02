@@ -5,18 +5,18 @@
 using namespace std;
 void invalidInput(); // default text line for invalid input
 void topLevelMenu(); // text line that displays the top level menu prompts
-void Populate(DoubleType*);
-void updateAccount(DoubleType*);
-void view(DoubleType*);
-void viewIndividual(DoubleType*);
-void viewList(DoubleType*);
-void deleteItem(DoubleType*);
+void Populate(DoubleType<ClientType>*);
+void updateAccount(DoubleType<ClientType>*);
+void view(DoubleType<ClientType>*);
+void viewIndividual(DoubleType<ClientType>*);
+void viewList(DoubleType<ClientType>*);
+void deleteItem(DoubleType<ClientType>*);
 
 
 int main(int argc, char const *argv[]) {
    
    cout << "===========List===========" << endl;
-   DoubleType* List = new DoubleType;
+   DoubleType<ClientType>* List = new DoubleType<ClientType>;
    bool exit = false;
 
    do {   
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[]) {
  * @param list take in the generated list as a parameter.
  */
 
-void Populate(DoubleType* list) {
+void Populate(DoubleType<ClientType>* list) {
    cout << "-----List Generation-------" << endl;
    int choice = 1;
    string name;
@@ -98,7 +98,7 @@ void Populate(DoubleType* list) {
  * 
  * @param list 
  */
-void view(DoubleType* list) {
+void view(DoubleType<ClientType>* list) {
    int option;
    bool isValid = false;
    do {
@@ -133,7 +133,7 @@ void view(DoubleType* list) {
  * 
  * @param list the sorted list that was generated.
  */
-void viewList(DoubleType* list) {
+void viewList(DoubleType<ClientType>* list) {
    list->ResetList();
    for (int i = 0; i < list->GetLength(); i++ )
    {
@@ -150,7 +150,7 @@ void viewList(DoubleType* list) {
  * 
  * @param list the linked list
  */
-void viewIndividual(DoubleType* list) {
+void viewIndividual(DoubleType<ClientType>* list) {
    int choice = 0;
    int id;
    do {
@@ -176,7 +176,7 @@ void viewIndividual(DoubleType* list) {
  * 
  * @param list the sorted list
  */
-void deleteItem(DoubleType* list) {
+void deleteItem(DoubleType<ClientType>* list) {
    cout << "-------Delete Record from List -------" << endl;
    int id;
    cout << "Enter Account ID for removal: " << endl;
@@ -194,7 +194,7 @@ void deleteItem(DoubleType* list) {
  * 
  * @param list the sorted list
  */
-void updateAccount(DoubleType* list) {
+void updateAccount(DoubleType<ClientType>* list) {
    cout << "--------Update Records-----------" << endl;
    int id;
    int choice = 0;
