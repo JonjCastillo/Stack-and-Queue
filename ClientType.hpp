@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include <iostream>
+#include <sstream>
 using namespace std;
 
 
@@ -36,6 +36,7 @@ class ClientType {
       void setBalance(double balance);
       void setID(int id);
       
+      string toString() const;
 
 
 
@@ -83,6 +84,16 @@ void ClientType::setBalance(double balance) {
 
 void ClientType::setID(int id) {
    this->id = id;
+}
+
+string ClientType::toString() const {
+   ostringstream buffer;
+
+   buffer << "Name: " << this->name << "\n"
+          << "ID: " << this->id << "\n"
+          << "Balance: " << this->balance << "\n";
+   return buffer.str();
+
 }
 
 
