@@ -29,7 +29,7 @@ public:
 
 template <class T>
 Stack<T>::Stack() : DoubleType<T>() {
-
+   
 }
 
 template <class T>
@@ -39,12 +39,42 @@ bool Stack<T>::isEmpty() const {
 
 template <class T>
 T* Stack<T>::top() {
-   return DoubleType<T>::getHead();
+   return DoubleType<T>::front();
 }
 
 template <class T>
 void Stack<T>::push(T* item) {
    DoubleType<T>::PutItemTop(item);
+//    NodeType<T>* newNode;  // pointer to node being inserted
+//    NodeType<T>* predLoc;  // trailing pointer
+//    NodeType<T>* location; // traveling pointer
+//    // bool moreToSearch;
+
+//    location = listData;
+//    predLoc = NULL;
+//    // moreToSearch = (location != NULL);
+
+//    // Prepare node for insertion.
+//    newNode = new NodeType<T>;
+//    newNode->info = item;
+
+//    // Insert node into list.
+//    if (listData == NULL)         // Insert as first.
+//    {
+//       newNode->next = NULL;
+//       newNode->previous = NULL;
+//       listData = newNode;
+//       listTail = newNode;
+//    }
+//    else
+//    {
+//       newNode->next = listData;
+//       newNode->previous = NULL;
+//       listData = newNode;
+
+//    }
+//    length++;
+
 }
 
 template <class T>

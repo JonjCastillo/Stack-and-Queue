@@ -20,19 +20,23 @@ class DoubleType {
     ~DoubleType();    // Class destructor
 
     bool IsFull() const;
-    bool isEmpty() const;
-    int  GetLength() const;
+    virtual bool isEmpty() const;
+    virtual int size() const;
     void MakeEmpty();
     T* GetItem(T* item);
+    // virtual void pop();
+    // virtual void push(T* item);
+    T* front();
+    T* back();
     void PutItemTop(T* item);
     void PutItemBottom(T* item);
     void DeleteItem(T* item);
     void DeleteItemTop();
     void DeleteItemBottom();
-    void ResetList();
+    // void ResetList();
     // void UpdateItem(T* item);
-    T* GetNextItem();
-    void sortList();
+    // T* GetNextItem();
+    // void sortList();
     NodeType<T>* getHead();
     NodeType<T>* getTail();
 
@@ -70,7 +74,7 @@ bool DoubleType<T>::isEmpty() const {
 }
 //return the length of the list
 template<class T>
-int DoubleType<T>::GetLength() const {
+int DoubleType<T>::size() const {
    return length;
 }
 
@@ -155,8 +159,10 @@ void DoubleType<T>::PutItemTop(T* item)
   else
   {
     newNode->next = listData;
+    listData->previous = newNode;
     newNode->previous = NULL;
     listData = newNode;
+    
 
   }
   length++;
@@ -187,6 +193,7 @@ void DoubleType<T>::PutItemBottom(T* item) {
     listTail = newNode;
   } else {
     newNode->previous = listTail;
+    listTail->next = newNode;
     newNode->next = NULL;
     listTail = newNode;
     
@@ -194,27 +201,27 @@ void DoubleType<T>::PutItemBottom(T* item) {
   length++;
 }
 
-template<class T>
-void DoubleType<T>::sortList() {
-  NodeType<T>* tempNode;
-  NodeType<T>* indexNode;
-  T* temp;
+// template<class T>
+// void DoubleType<T>::sortList() {
+//   NodeType<T>* tempNode;
+//   NodeType<T>* indexNode;
+//   T* temp;
 
-  if (listData == NULL) {
-    return;
-  } else {
-    for (tempNode = listData; tempNode->next != NULL; tempNode = tempNode->next) {
-      for (indexNode = tempNode->next; indexNode != NULL; indexNode = indexNode->next) {
-        if (tempNode->info > indexNode->info ) {
-          temp = tempNode->info;
-          tempNode->info = indexNode->info;
-          indexNode->info = temp;
-        }
-      }
-    }
+//   if (listData == NULL) {
+//     return;
+//   } else {
+//     for (tempNode = listData; tempNode->next != NULL; tempNode = tempNode->next) {
+//       for (indexNode = tempNode->next; indexNode != NULL; indexNode = indexNode->next) {
+//         if (tempNode->info > indexNode->info ) {
+//           temp = tempNode->info;
+//           tempNode->info = indexNode->info;
+//           indexNode->info = temp;
+//         }
+//       }
+//     }
 
-  }
-}
+//   }
+// }
 
 
 
@@ -264,28 +271,28 @@ void DoubleType<T>::DeleteItemBottom() {
   delete tempNode;
 }
 
-template<class T>
-void DoubleType<T>::ResetList()
-{
-  currentPos = NULL;
-}
+// template<class T>
+// void DoubleType<T>::ResetList()
+// {
+//   currentPos = NULL;
+// }
 
 /**
  * @brief returns the next item in the list
  * 
  * @return T* the client that followed in the list
  */
-template<class T>
-T* DoubleType<T>::GetNextItem()
-{
-  T* item;
-  if (currentPos == NULL) {
-    currentPos = listData;
-  }
-  item = currentPos->info;
-  currentPos = currentPos->next;
-  return item;
-}
+// template<class T>
+// T* DoubleType<T>::GetNextItem()
+// {
+//   T* item;
+//   if (currentPos == NULL) {
+//     currentPos = listData;
+//   }
+//   item = currentPos->info;
+//   currentPos = currentPos->next;
+//   return item;
+// }
 
 template<class T>
 DoubleType<T>::~DoubleType()
@@ -300,37 +307,6 @@ DoubleType<T>::~DoubleType()
   }
 }
 
-// /**
-//  * @brief this method will search similar to GetItem() and then update the found
-//  * node with the given parameters
-//  * 
-//  * @param key the account ID for the node
-//  * @param balance the updated balance for the account
-//  * @param name the updated name for the account
-//  */
-// template<class T>
-// void DoubleType<T>::UpdateItem(T* item) {
-//   bool moreToSearch;
-//   NodeType<T>* location;
-//   NodeType<T>* tempLocation;
-
-//   location = listData;
-//   moreToSearch = (location->next != NULL);
-
-//   if ( item == location->info) {
-//     location->info = item;
-//   }
-//   else {
-//     while (item != location->next->info) {
-//       location = location->next;
-//     }
-
-//     location->next->info = item;
-//   }
-  
-// }
-
-// returns the head of the list
 template<class T>
 NodeType<T>* DoubleType<T>::getHead() {
   return listData;
@@ -341,7 +317,22 @@ NodeType<T>* DoubleType<T>::getTail() {
   return listTail;
 }
 
+template<class T>
+T* DoubleType<T>::front() {
+  return this->getHead()->info;
+}
 
+template<class T>
+T* DoubleType<T>::back() {
+  return this->getTail()->info;
+}
 
+// template<class T>
+// void DoubleType<T>::pop() {
+//   NodeType<T>* tempNode;
+//   tempNode = listData;
+//   listData = listData->next;
+//   delete tempNode;
+// }
 
 #endif
