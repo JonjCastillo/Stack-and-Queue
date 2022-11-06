@@ -15,13 +15,6 @@ class ClientType {
       double balance;
       
    public:
-      //overloading comparison operators
-      inline bool operator<  (const ClientType& rhs) {return this->getID() < rhs.getID();};
-      inline bool operator>  (const ClientType& rhs) {return rhs.getID() < this->getID();}; 
-      inline bool operator<= (const ClientType& rhs) {return !(this->getID() > rhs.getID());};
-      inline bool operator>= (const ClientType& rhs) {return !(this->getID() < rhs.getID());};
-      inline bool operator== (const ClientType& rhs);
-      inline bool operator!= (const ClientType& rhs);
       
       ClientType();
       ClientType(int id, string name, double balance);
@@ -42,13 +35,6 @@ class ClientType {
 
 };
 
-inline bool ClientType::operator== (const ClientType& rhs) {
-   return this->id == rhs.getID();
-}
-
-inline bool ClientType::operator!=(const ClientType& rhs) {
-   return !(this->id == rhs.getID());
-}
 
 ClientType::ClientType(int id, string name, double balance) {
    this->id = id;

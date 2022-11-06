@@ -55,28 +55,6 @@ T* Queue<T>::back() {
 template <class T>
 void Queue<T>::push(T* item) {
    DoubleType<T>::PutItemBottom(item);
-   // NodeType<T>* newNode;  // pointer to node being inserted  // trailing pointer
-   // NodeType<T>* location; // traveling pointer
-   // // bool moreToSearch;
-
-   // location = listData;
-   // // moreToSearch = (location != NULL);
-   // newNode = new NodeType<T>;
-   // newNode->info = item;
-
-   // if (listData == NULL)         // Insert as first.
-   // {
-   //    newNode->next = NULL;
-   //    newNode->previous = NULL;
-   //    listData = newNode;
-   //    listTail = newNode;
-   // } else {
-   //    newNode->previous = listTail;
-   //    newNode->next = NULL;
-   //    listTail = newNode;
-      
-   // }
-   // length++;
 }
 
 template <class T>
